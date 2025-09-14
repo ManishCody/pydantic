@@ -1,14 +1,14 @@
 from pydantic import BaseModel , EmailStr , Field
-from typing import List  , Optional
+from typing import List  , Optional , Annotated
 
 class contactInfo(BaseModel):
     email:EmailStr
     phone:str
 
 class Patient(BaseModel):
-    name:str   = Field(min_length=3 , max_length=50) 
+    name: Annotated[str , Field(min_length=3 , max_length=50 , title="Patient Name" , description="Name of the patient" , examples=["John Doe" , "Jane Doe"])]
     age:int =  Field(ge=18, lt=100)
-    weight:float
+    weight:Annotated[float , Field(gt=0 , lt=500 , strict=True)]
     married:Optional[bool] = None
     allergies:List[str]  # List is used for validating inner values also 
     contact_deatils: contactInfo   
